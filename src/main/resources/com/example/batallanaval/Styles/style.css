@@ -1,0 +1,15 @@
+.root{
+    -fx-background-image: url("../Images/fondo.jpg");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: cover;
+}
+.button-game {
+    -fx-background-color: black;
+    -fx-text-fill: white;
+    -fx-font-family: 'game-font';
+    -fx-border-color: blue;
+    -fx-border-width: 2px;
+    -fx-background-radius: 15; /* Esquinas redondeadas */
+    -fx-border-radius: 15; /* Esquinas redondeadas */
+    -fx-padding: 10 20 10 20; /* Relleno interno del botón */
+}

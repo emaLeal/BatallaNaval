@@ -4,14 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a0e773ea-7f15-484b-a4da-a168feb3c1ed" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/batallanaval/controller/WelcomeController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/batallanaval/view/WelcomeStage.java" afterDir="false" />
+    <list default="true" id="a0e773ea-7f15-484b-a4da-a168feb3c1ed" name="Changes" comment="crar archivos">
+      <change afterPath="$PROJECT_DIR$/src/main/resources/com/example/batallanaval/Images/fondo.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/com/example/batallanaval/Styles/style.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/batallanaval/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/batallanaval/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/batallanaval/hello-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/batallanaval/welcome-view.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/batallanaval/welcome-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/batallanaval/welcome-view.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,6 +20,7 @@
       <list>
         <option value="JavaFXApplication" />
         <option value="Class" />
+        <option value="CSS File" />
       </list>
     </option>
   </component>
@@ -53,6 +51,8 @@
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "master",
     "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/jaque/IdeaProjects/BatallaNaval/src/main/resources/com/example/batallanaval/Images",
+    "list.type.of.created.stylesheet": "CSS",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -61,6 +61,11 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\jaque\IdeaProjects\BatallaNaval\src\main\resources\com\example\batallanaval\Images" />
+    </key>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -79,12 +84,26 @@
       <option name="presentableId" value="Default" />
       <updated>1714310661929</updated>
       <workItem from="1714310663138" duration="803000" />
-      <workItem from="1716708476652" duration="7031000" />
+      <workItem from="1716708476652" duration="7654000" />
+      <workItem from="1717286020001" duration="4335000" />
     </task>
+    <task id="LOCAL-00001" summary="crar archivos">
+      <option name="closed" value="true" />
+      <created>1716737380436</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1716737380436</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="crar archivos" />
+    <option name="LAST_COMMIT_MESSAGE" value="crar archivos" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
