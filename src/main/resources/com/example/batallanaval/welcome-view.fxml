@@ -8,5 +8,5 @@
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
     </padding>
-    <Button prefHeight="41.0" prefWidth="85.0" text="JUGAR" />
+    <Button prefHeight="41.0" prefWidth="85.0" text="JUGAR" onAction="#startGame" />
 </VBox>
