@@ -5,7 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a0e773ea-7f15-484b-a4da-a168feb3c1ed" name="Changes" comment="fondo">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/batallanaval/model/BoardElement.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/batallanaval/controller/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/batallanaval/controller/GameController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/batallanaval/game-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/batallanaval/game-view.fxml" afterDir="false" />
@@ -94,7 +93,7 @@
       <workItem from="1717430254327" duration="761000" />
       <workItem from="1717468276425" duration="3203000" />
       <workItem from="1717602368447" duration="988000" />
-      <workItem from="1717603717800" duration="2660000" />
+      <workItem from="1717603717800" duration="4275000" />
     </task>
     <task id="LOCAL-00001" summary="crar archivos">
       <option name="closed" value="true" />

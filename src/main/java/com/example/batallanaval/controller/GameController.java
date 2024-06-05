@@ -49,12 +49,12 @@ public class GameController {
         cSubmarinos.setText(String.valueOf(elSubmarino.getQuantity()));
         cDestructores.setText(String.valueOf(elDestructor.getQuantity()));
         cFragatas.setText(String.valueOf(elFragatas.getQuantity()));
-        addMouseEvent();
+        addMouseEvent(tablero1);
+        addMouseEvent(tablero2);
     }
 
     private Pane getCellFromGridPane(GridPane gridPane, int row, int col) {
         for (javafx.scene.Node node : gridPane.getChildren()) {
-            System.out.println(gridPane.getChildren());
             if (GridPane.getRowIndex(node) != null && GridPane.getRowIndex(node) == row &&
                     GridPane.getColumnIndex(node) != null && GridPane.getColumnIndex(node) == col) {
                 return (Pane) node;
@@ -62,12 +62,11 @@ public class GameController {
         }
         return null; // No se encontró la celda
     }
-    private void addMouseEvent() {
-        for (int row = 0; row < tablero1.getRowCount(); row++) {
-            for (int col = 0; col < tablero1.getColumnCount(); col++) {
-                Pane cell = getCellFromGridPane(tablero1, row, col);
+    private void addMouseEvent(GridPane grid) {
+        for (int row = 0; row < grid.getRowCount(); row++) {
+            for (int col = 0; col < grid.getColumnCount(); col++) {
+                Pane cell = getCellFromGridPane(grid, row, col);
                 if (cell != null) {
-                    System.out.println("hola :E");
                     // Adding mouse enter and exit events
                     cell.setOnMouseEntered(e -> cell.setStyle("-fx-background-color: lightblue; -fx-border-color: black;"));
                     cell.setOnMouseExited(e -> cell.setStyle("-fx-background-color: white; -fx-border-color: white;"));
