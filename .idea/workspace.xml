@@ -4,11 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a0e773ea-7f15-484b-a4da-a168feb3c1ed" name="Changes" comment="crar archivos">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/com/example/batallanaval/Images/fondo.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/com/example/batallanaval/Styles/style.css" afterDir="false" />
+    <list default="true" id="a0e773ea-7f15-484b-a4da-a168feb3c1ed" name="Changes" comment="fondo">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/batallanaval/welcome-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/batallanaval/welcome-view.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/batallanaval/controller/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/batallanaval/controller/GameController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/batallanaval/game-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/batallanaval/game-view.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,12 +18,18 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="JavaFXApplication" />
-        <option value="Class" />
         <option value="CSS File" />
+        <option value="FxmlFile" />
+        <option value="Class" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="MavenImportPreferences">
@@ -49,9 +54,9 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "master",
+    "git-widget-placeholder": "emanuel",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/jaque/IdeaProjects/BatallaNaval/src/main/resources/com/example/batallanaval/Images",
+    "last_opened_file_path": "C:/Users/leale/Documents/carpeta/Ahorcado",
     "list.type.of.created.stylesheet": "CSS",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -69,8 +74,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="jdk-13.0.14-azul-13.0.14-4caba194b151-0dc6e15b" />
-        <option value="jdk-17.0.10-corretto-17.0.10-4caba194b151-5cd809f4" />
+        <option value="jdk-19.0.2-corretto-19.0.2-4caba194b151-48ba4555" />
         <option value="jdk-19.0.2-semeru-19.0.2-4caba194b151-6abc030f" />
       </set>
     </attachedChunks>
@@ -85,7 +89,11 @@
       <updated>1714310661929</updated>
       <workItem from="1714310663138" duration="803000" />
       <workItem from="1716708476652" duration="7654000" />
-      <workItem from="1717286020001" duration="4335000" />
+      <workItem from="1717286020001" duration="4578000" />
+      <workItem from="1717430254327" duration="761000" />
+      <workItem from="1717468276425" duration="3203000" />
+      <workItem from="1717602368447" duration="988000" />
+      <workItem from="1717603717800" duration="7419000" />
     </task>
     <task id="LOCAL-00001" summary="crar archivos">
       <option name="closed" value="true" />
@@ -95,7 +103,15 @@
       <option name="project" value="LOCAL" />
       <updated>1716737380436</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="fondo">
+      <option name="closed" value="true" />
+      <created>1717342282984</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1717342282984</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -103,7 +119,9 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="crar archivos" />
-    <option name="LAST_COMMIT_MESSAGE" value="crar archivos" />
+    <MESSAGE value="fondo" />
+    <MESSAGE value="INTERFAZ" />
+    <option name="LAST_COMMIT_MESSAGE" value="INTERFAZ" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
