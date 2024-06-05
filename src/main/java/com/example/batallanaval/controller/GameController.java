@@ -1,7 +1,9 @@
 package com.example.batallanaval.controller;
 
 import com.example.batallanaval.model.BoardElement;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
@@ -9,25 +11,33 @@ import javafx.scene.text.Text;
 public class GameController {
     // FXML variables
     @FXML
-    private Text portaviones;
+    private Button portaviones;
     @FXML
     private Text cPortaviones;
     @FXML
-    private Text submarinos;
+    private Button submarinos;
     @FXML
     private Text cSubmarinos;
     @FXML
-    private Text destructores;
+    private Button destructores;
     @FXML
     private Text cDestructores;
     @FXML
-    private Text fragatas;
+    private Button fragatas;
     @FXML
     private Text cFragatas;
     @FXML
     private GridPane tablero1;
     @FXML
     private GridPane tablero2;
+    @FXML
+    private Button buttonPortaviones;
+    @FXML
+    private Button buttonSubmarinos;
+    @FXML
+    private Button buttonDestructores;
+    @FXML
+    private Button buttonFragatas;
 
     // elements
     private BoardElement elPortavion;
@@ -74,4 +84,10 @@ public class GameController {
             }
         }
     }
+
+    public void onHandleElement(ActionEvent event) {
+        Button eventButton = (Button) event.getSource();
+        System.out.println(eventButton);
+
+     }
 }
