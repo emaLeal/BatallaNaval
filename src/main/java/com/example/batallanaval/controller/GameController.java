@@ -1,43 +1,37 @@
 package com.example.batallanaval.controller;
 
 import com.example.batallanaval.model.BoardElement;
+import com.example.batallanaval.model.Destructor;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 
 public class GameController {
     // FXML variables
     @FXML
-    private Button portaviones;
-    @FXML
-    private Text cPortaviones;
-    @FXML
-    private Button submarinos;
-    @FXML
-    private Text cSubmarinos;
-    @FXML
-    private Button destructores;
-    @FXML
-    private Text cDestructores;
-    @FXML
-    private Button fragatas;
-    @FXML
-    private Text cFragatas;
-    @FXML
     private GridPane tablero1;
     @FXML
     private GridPane tablero2;
+
     @FXML
-    private Button buttonPortaviones;
+    private Button destructores;
     @FXML
-    private Button buttonSubmarinos;
+    private Button portaAviones;
     @FXML
-    private Button buttonDestructores;
+    private Button submarino;
     @FXML
-    private Button buttonFragatas;
+    private Button fragatas;
+
+
+    @FXML
+    private HBox elementPortaviones;
+    @FXML
+    private HBox idPanelController;
 
     // elements
     private BoardElement elPortavion;
@@ -51,20 +45,34 @@ public class GameController {
      * Performs setup tasks such as setting up the timeline and populating the Sudoku board.
      * */
     public void initialize(){
+
         elPortavion = new BoardElement("Portaviones", 1, 4);
         elSubmarino = new BoardElement("SubMarinos", 2, 3);
         elDestructor = new BoardElement("Destructores", 3, 2);
         elFragatas = new BoardElement("Fragatas", 4, 1);
+
+        BoardElement[] barcos = {elPortavion,elSubmarino,elDestructor,elFragatas};
+        Button[] botonesBarcos = {destructores,portaAviones,submarino,fragatas};
+        for (int i = 0; i < barcos.length; i++ ) {
+            botonesBarcos[i].setText(String.valueOf(barcos[i].getName() +" "+barcos[i].getQuantity()));
+            botonesBarcos[i].setGraphic(barcos[i].getRoot());
+        }
+
+
+        //idPanelController.getChildren().addAll(elPortavion.getRoot(),elSubmarino.getRoot(),elDestructor.getRoot());
+        /*
         cPortaviones.setText(String.valueOf(elPortavion.getQuantity()));
         cSubmarinos.setText(String.valueOf(elSubmarino.getQuantity()));
         cDestructores.setText(String.valueOf(elDestructor.getQuantity()));
         cFragatas.setText(String.valueOf(elFragatas.getQuantity()));
+
+         */
         addMouseEvent(tablero1);
         addMouseEvent(tablero2);
     }
 
     private Pane getCellFromGridPane(GridPane gridPane, int row, int col) {
-        for (javafx.scene.Node node : gridPane.getChildren()) {
+        for (Node node : gridPane.getChildren()) {
             if (GridPane.getRowIndex(node) != null && GridPane.getRowIndex(node) == row &&
                     GridPane.getColumnIndex(node) != null && GridPane.getColumnIndex(node) == col) {
                 return (Pane) node;
