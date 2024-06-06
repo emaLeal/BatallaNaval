@@ -5,9 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a0e773ea-7f15-484b-a4da-a168feb3c1ed" name="Changes" comment="diseño y creacion del destructor">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/batallanaval/model/Fragata.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/batallanaval/model/Portaviones.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/batallanaval/model/Submarino.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/batallanaval/controller/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/batallanaval/controller/GameController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/batallanaval/game-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/batallanaval/game-view.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/batallanaval/model/BoardElement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/batallanaval/model/BoardElement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/batallanaval/model/Destructor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/batallanaval/model/Destructor.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,7 +30,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="karen" />
+        <entry key="$PROJECT_DIR$" value="master" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -120,6 +123,7 @@
     <MESSAGE value="crar archivos" />
     <MESSAGE value="fondo" />
     <MESSAGE value="INTERFAZ" />
-    <option name="LAST_COMMIT_MESSAGE" value="INTERFAZ" />
+    <MESSAGE value="unir ramas" />
+    <option name="LAST_COMMIT_MESSAGE" value="unir ramas" />
   </component>
 </project>

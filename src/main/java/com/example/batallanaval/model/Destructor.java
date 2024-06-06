@@ -7,8 +7,7 @@ import javafx.scene.shape.*;
 import javafx.stage.Stage;
 
 public class Destructor{
-    Pane root = new Pane();
-
+    Pane root;
 
     public Destructor(){
         root = new Pane();
@@ -33,6 +32,7 @@ public class Destructor{
         ventana2.setStroke(Color.BLACK);
 
         Polyline torre = new Polyline();
+
         torre.getPoints().addAll(
                 42.0, 10.0,
                 42.0, 0.0,
@@ -48,6 +48,7 @@ public class Destructor{
                 30.0, 10.0);
         torreta1.setFill(Color.ORANGERED);
         torreta1.setStroke(Color.BLACK);
+
         Polyline torreta2 = new Polyline();
         torreta2.getPoints().addAll(
                 65.0, 10.0,

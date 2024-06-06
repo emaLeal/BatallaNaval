@@ -10,12 +10,27 @@ public class BoardElement {
 
     private int size;
 
-    public BoardElement(String name, int quantity, int spaces) {
+    public BoardElement(String name, int quantity, int spaces ) {
         this.name = name;
         this.quantity = quantity;
         this.spaces = spaces;
-        Destructor destructor = new Destructor();
-        this.barco = destructor.getRoot();
+
+        switch (name) {
+            case "Portaviones":
+                this.barco = new Portaviones().getRoot();
+                break;
+            case "SubMarinos":
+                this.barco = new Submarino().getRoot();
+                break;
+            case "Destructores":
+                this.barco = new Destructor().getRoot();
+                break;
+            case "Fragatas":
+                this.barco = new Fragata().getRoot();
+                break;
+            default:
+                throw new IllegalArgumentException("Tipo de barco desconocido: " + name);
+        }
         this.size = size;
     }
     public int getQuantity() {
