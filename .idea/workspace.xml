@@ -7,7 +7,6 @@
     <list default="true" id="a0e773ea-7f15-484b-a4da-a168feb3c1ed" name="Changes" comment="diseño y creacion del destructor">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/batallanaval/controller/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/batallanaval/controller/GameController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/batallanaval/game-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/batallanaval/game-view.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,7 +53,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "cris",
+    "git-widget-placeholder": "emanuel",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/jaque/IdeaProjects/BatallaNaval/src/main/resources/com/example/batallanaval/Images",
     "list.type.of.created.stylesheet": "CSS",
