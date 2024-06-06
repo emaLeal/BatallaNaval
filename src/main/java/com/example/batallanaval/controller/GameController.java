@@ -19,24 +19,16 @@ public class GameController {
     private GridPane tablero2;
 
     @FXML
-    private Button destructores;
-    @FXML
-    private Button portaAviones;
-    @FXML
-    private Button submarino;
-    private Text cDestructores;
-    @FXML
-    private Button fragatas;
-    @FXML
-    private Text cFragatas;
-    @FXML
     private Button buttonPortaviones;
-
-
-    @FXML
-    private HBox elementPortaviones;
     @FXML
     private Button buttonFragatas;
+    @FXML
+    private Button buttonSubmarinos;
+    @FXML
+    private Button buttonDestructores;
+
+
+
 
     // elements
     private BoardElement elPortavion;
@@ -47,6 +39,8 @@ public class GameController {
     // Currently selected ship
     private BoardElement selectedShip;
     private int shipSize;
+    private Button[] botonesBarcos;
+    BoardElement[] barcos;
 
     /**
      * Initializes the game controller.
@@ -59,22 +53,14 @@ public class GameController {
         elDestructor = new BoardElement("Destructores", 3, 2);
         elFragatas = new BoardElement("Fragatas", 4, 1);
 
-        BoardElement[] barcos = {elPortavion,elSubmarino,elDestructor,elFragatas};
-        Button[] botonesBarcos = {destructores,portaAviones,submarino,fragatas};
+         barcos = new BoardElement[]{elPortavion,elSubmarino,elDestructor,elFragatas};
+         botonesBarcos = new Button[]{buttonPortaviones,buttonSubmarinos,buttonDestructores,buttonFragatas};
+
         for (int i = 0; i < barcos.length; i++ ) {
             botonesBarcos[i].setText(String.valueOf(barcos[i].getName() +" "+barcos[i].getQuantity()));
             botonesBarcos[i].setGraphic(barcos[i].getRoot());
         }
 
-
-        //idPanelController.getChildren().addAll(elPortavion.getRoot(),elSubmarino.getRoot(),elDestructor.getRoot());
-        /*
-        cPortaviones.setText(String.valueOf(elPortavion.getQuantity()));
-        cSubmarinos.setText(String.valueOf(elSubmarino.getQuantity()));
-        cDestructores.setText(String.valueOf(elDestructor.getQuantity()));
-        cFragatas.setText(String.valueOf(elFragatas.getQuantity()));
-
-         */
         addMouseEvent(tablero1);
     }
 
@@ -137,10 +123,10 @@ public class GameController {
 
     // esto es pa mermar la cantidad de barcos , osea si ya se selecciono uno actualiza la cantidad de los q me faltan
     private void updateShipCounts() {
-        cPortaviones.setText(String.valueOf(elPortavion.getQuantity()));
-        cSubmarinos.setText(String.valueOf(elSubmarino.getQuantity()));
-        cDestructores.setText(String.valueOf(elDestructor.getQuantity()));
-        cFragatas.setText(String.valueOf(elFragatas.getQuantity()));
+
+        for (int i = 0; i < barcos.length; i++ ) {
+            botonesBarcos[i].setText(String.valueOf(barcos[i].getName() +" "+barcos[i].getQuantity()));
+        }
     }
 
     public void onHandleElement(ActionEvent event) {
