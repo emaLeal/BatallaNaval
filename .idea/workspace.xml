@@ -7,6 +7,7 @@
     <list default="true" id="a0e773ea-7f15-484b-a4da-a168feb3c1ed" name="Changes" comment="fondo">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/batallanaval/controller/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/batallanaval/controller/GameController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/batallanaval/model/BoardElement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/batallanaval/model/BoardElement.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/batallanaval/game-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/batallanaval/game-view.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -35,7 +36,7 @@
   <component name="MavenImportPreferences">
     <option name="generalSettings">
       <MavenGeneralSettings>
-        <option name="mavenHome" value="Use Maven wrapper" />
+        <option name="mavenHomeTypeForPersistence" value="WRAPPER" />
       </MavenGeneralSettings>
     </option>
   </component>
@@ -54,7 +55,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "emanuel",
+    "git-widget-placeholder": "karen",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/leale/Documents/carpeta/Ahorcado",
     "list.type.of.created.stylesheet": "CSS",
@@ -94,6 +95,7 @@
       <workItem from="1717468276425" duration="3203000" />
       <workItem from="1717602368447" duration="988000" />
       <workItem from="1717603717800" duration="7419000" />
+      <workItem from="1717637563032" duration="9212000" />
     </task>
     <task id="LOCAL-00001" summary="crar archivos">
       <option name="closed" value="true" />
@@ -128,7 +130,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/example/batallanaval/Main.java</url>
-          <line>11</line>
+          <line>36</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
       </breakpoints>
