@@ -10,10 +10,17 @@ import java.io.IOException;
 
 public class WelcomeStage extends Stage {
 
+    /**
+     * Constructs a new WelcomeStage and initializes its components.
+     *
+     * @throws IOException If an I/O error occurs while loading the FXML file.
+     */
     public WelcomeStage() throws IOException {
+        // Load the FXML file for the welcome view
         String url = "/com/example/batallanaval/welcome-view.fxml";
         FXMLLoader loader = new FXMLLoader(getClass().getResource(url));
         Parent root = loader.load();
+        //Set the title, scene, and other properties
         setTitle("Batalla Naval");
         Scene scene = new Scene(root);
         setScene(scene);

@@ -536,7 +536,7 @@
             </Button>
             <VBox alignment="CENTER" prefHeight="67.0" prefWidth="118.0" spacing="3.0">
                <children>
-                  <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="82.0" text="JUGAR">
+                  <Button fx:id="play" disable="true" mnemonicParsing="false" onAction="#startGame" prefHeight="25.0" prefWidth="82.0" text="JUGAR">
                      <font>
                         <Font size="14.0" />
                      </font>
