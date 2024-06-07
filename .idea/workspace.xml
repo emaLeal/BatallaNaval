@@ -4,13 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a0e773ea-7f15-484b-a4da-a168feb3c1ed" name="Changes" comment="diseño y creacion del destructor">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/batallanaval/model/Fragata.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/batallanaval/model/Portaviones.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/batallanaval/model/Submarino.java" afterDir="false" />
+    <list default="true" id="a0e773ea-7f15-484b-a4da-a168feb3c1ed" name="Changes" comment="diseño de barcos">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/batallanaval/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/batallanaval/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/batallanaval/controller/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/batallanaval/controller/GameController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/batallanaval/model/BoardElement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/batallanaval/model/BoardElement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/batallanaval/model/Destructor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/batallanaval/model/Destructor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/batallanaval/model/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/batallanaval/model/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/batallanaval/model/Submarino.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/batallanaval/model/Submarino.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/batallanaval/game-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/batallanaval/game-view.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,6 +35,20 @@
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "cris341"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="selectedUrlAndAccountId">
+      <UrlAndAccount>
+        <option name="accountId" value="6f2572d3-1b16-4a69-9493-d7d112b66c13" />
+        <option name="url" value="https://github.com/emaLeal/BatallaNaval.git" />
+      </UrlAndAccount>
+    </option>
   </component>
   <component name="MavenImportPreferences">
     <option name="generalSettings">
@@ -113,7 +128,15 @@
       <option name="project" value="LOCAL" />
       <updated>1717342282984</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="diseño de barcos">
+      <option name="closed" value="true" />
+      <created>1717711715394</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1717711715394</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -124,6 +147,7 @@
     <MESSAGE value="fondo" />
     <MESSAGE value="INTERFAZ" />
     <MESSAGE value="unir ramas" />
-    <option name="LAST_COMMIT_MESSAGE" value="unir ramas" />
+    <MESSAGE value="diseño de barcos" />
+    <option name="LAST_COMMIT_MESSAGE" value="diseño de barcos" />
   </component>
 </project>

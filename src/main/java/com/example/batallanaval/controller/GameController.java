@@ -1,15 +1,17 @@
 package com.example.batallanaval.controller;
 
-import com.example.batallanaval.model.BoardElement;
-import com.example.batallanaval.model.Destructor;
+import com.example.batallanaval.model.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.RadioButton;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
+
+import java.util.List;
 
 public class GameController {
     // FXML variables
@@ -27,8 +29,8 @@ public class GameController {
     @FXML
     private Button buttonDestructores;
 
-
-
+    @FXML
+    private Pane idPanelControllerTwo;
 
     // elements
     private BoardElement elPortavion;
@@ -41,27 +43,32 @@ public class GameController {
     private int shipSize;
     private Button[] botonesBarcos;
     BoardElement[] barcos;
-
+    List<BoardElement> barcosGameEnemy;
     /**
      * Initializes the game controller.
      * Performs setup tasks such as setting up the timeline and populating the Sudoku board.
      */
     public void initialize(){
+        Game game = new Game();
+        barcosGameEnemy = game.getBarcosGame();
 
         elPortavion = new BoardElement("Portaviones", 1, 4);
         elSubmarino = new BoardElement("SubMarinos", 2, 3);
         elDestructor = new BoardElement("Destructores", 3, 2);
         elFragatas = new BoardElement("Fragatas", 4, 1);
 
-         barcos = new BoardElement[]{elPortavion,elSubmarino,elDestructor,elFragatas};
-         botonesBarcos = new Button[]{buttonPortaviones,buttonSubmarinos,buttonDestructores,buttonFragatas};
+        barcos = new BoardElement[]{elPortavion,elSubmarino,elDestructor,elFragatas};
+        botonesBarcos = new Button[]{buttonPortaviones,buttonSubmarinos,buttonDestructores,buttonFragatas};
 
         for (int i = 0; i < barcos.length; i++ ) {
             botonesBarcos[i].setText(String.valueOf(barcos[i].getName() +" "+barcos[i].getQuantity()));
             botonesBarcos[i].setGraphic(barcos[i].getRoot());
         }
 
+
         addMouseEvent(tablero1);
+        addMouseEventEnemy(tablero2);
+        placeEnemyBoats();
     }
 
     private Pane getCellFromGridPane(GridPane gridPane, int row, int col) {
@@ -87,6 +94,27 @@ public class GameController {
                     cell.setOnMouseExited(e -> cell.setStyle("-fx-background-color: white; -fx-border-color: white;"));
                     //Esto es pa que la función placeShip sea llamada cuando el usuario hace clic en una celda específica del tablero
                     cell.setOnMouseClicked(e -> placeShip(cell, currentRow, currentCol));
+                }
+            }
+        }
+    }
+
+    private void addMouseEventEnemy(GridPane grid) {
+        for (int row = 0; row < grid.getRowCount(); row++) {
+            for (int col = 0; col < grid.getColumnCount(); col++) {
+                Pane cell = getCellFromGridPane(grid, row, col);
+                if (cell != null) {
+
+                    // Adding mouse enter and exit events
+                    cell.setOnMouseEntered(e -> cell.setStyle("-fx-background-color: lightblue; -fx-border-color: black;"));
+                    cell.setOnMouseExited(e -> cell.setStyle("-fx-background-color: white; -fx-border-color: white;"));
+                    cell.setOnMouseClicked(e -> {
+                        cell.setOnMouseExited(null);
+                        cell.setStyle("-fx-background-color: blue; -fx-border-color: black;");
+                        cell.setDisable(true);
+                    });
+                    //Esto es pa que la función placeShip sea llamada cuando el usuario hace clic en una celda específica del tablero
+
                 }
             }
         }
@@ -145,4 +173,70 @@ public class GameController {
             shipSize = elFragatas.getSize();
         }
     }
+
+   public void placeEnemyBoats(){
+        for(BoardElement Boat:barcosGameEnemy){
+
+            switch (Boat.getName()){
+                case "Portaviones":
+                    Boat.getRoot().setScaleX(0.8);
+                    Boat.getRoot().setScaleY(0.5);
+                    break;
+                case "SubMarinos":
+                    Boat.getRoot().setScaleX(0.7);
+                    Boat.getRoot().setScaleY(0.5);
+                    break;
+                case "Destructores":
+                    Boat.getRoot().setScaleX(0.4);
+                    Boat.getRoot().setScaleY(0.5);
+                    break;
+                case "Fragatas":
+                    Boat.getRoot().setScaleX(0.2);
+                    Boat.getRoot().setScaleY(0.2);
+                    break;
+            }
+            int col= Boat.getCol();
+            for (int i = 0; i < Boat.getSpaces(); i++) {
+                Pane cell = getCellFromGridPane(tablero2, Boat.getRow() , col);
+                col++;
+                if(cell != null){
+                    cell.setOnMouseClicked(e ->OnClickCellEnemy(cell,Boat));
+                }
+            }
+            Boat.getRoot().setVisible(false);
+            tablero2.add(Boat.getRoot(),Boat.getCol(),Boat.getRow());
+        }
+
+    }
+    private void OnClickCellEnemy(Pane cell, BoardElement Boat){
+        cell.setOnMouseExited(null);
+        cell.setStyle("-fx-background-color: pink; -fx-border-color: red;");
+        cell.setDisable(true);
+        if(Boat.getLife() == 1 ){
+            Boat.getRoot().setVisible(true);
+        }else {
+            Boat.setLife();
+        }
+    }
+
+    public void showBoard(ActionEvent event){
+           RadioButton source = (RadioButton) event.getSource();
+        if (source.isSelected()) {
+            for(BoardElement Boat:barcosGameEnemy){
+                Boat.getRoot().setVisible(true);
+            }
+            idPanelControllerTwo.setVisible(true);
+            idPanelControllerTwo.setStyle("-fx-background-color: rgba(168, 168, 168, 0.5);");
+
+        } else {
+            for(BoardElement Boat:barcosGameEnemy){
+                Boat.getRoot().setVisible(false);
+            }
+            idPanelControllerTwo.setVisible(false);
+
+        }
+    }
+
 }
+
+
