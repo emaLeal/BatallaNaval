@@ -4,10 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a0e773ea-7f15-484b-a4da-a168feb3c1ed" name="Changes" comment="diseño y creacion del destructor">
+    <list default="true" id="a0e773ea-7f15-484b-a4da-a168feb3c1ed" name="Changes" comment="cambios">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/batallanaval/controller/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/batallanaval/controller/GameController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/batallanaval/game-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/batallanaval/game-view.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,7 +25,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="karen" />
+        <entry key="$PROJECT_DIR$" value="cris" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -54,7 +52,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "cris",
+    "git-widget-placeholder": "master",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/jaque/IdeaProjects/BatallaNaval/src/main/resources/com/example/batallanaval/Images",
     "list.type.of.created.stylesheet": "CSS",
@@ -93,6 +91,7 @@
       <workItem from="1717286020001" duration="4578000" />
       <workItem from="1717430254327" duration="761000" />
       <workItem from="1717468276425" duration="3203000" />
+      <workItem from="1717780878596" duration="283000" />
     </task>
     <task id="LOCAL-00001" summary="crar archivos">
       <option name="closed" value="true" />
