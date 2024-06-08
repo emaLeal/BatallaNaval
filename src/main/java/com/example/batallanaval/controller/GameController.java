@@ -1,17 +1,25 @@
 package com.example.batallanaval.controller;
 
 import com.example.batallanaval.model.*;
+import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class GameController {
     // FXML variables
@@ -28,9 +36,14 @@ public class GameController {
     private Button buttonSubmarinos;
     @FXML
     private Button buttonDestructores;
-
+    @FXML
+    private Button play;
     @FXML
     private Pane idPanelControllerTwo;
+    @FXML
+    private Pane idPanelControllerOne;
+    @FXML
+    private Label interaction;
 
     // elements
     private BoardElement elPortavion;
@@ -40,17 +53,27 @@ public class GameController {
 
     // Currently selected ship
     private BoardElement selectedShip;
+    private Button selectedButton;
     private int shipSize;
     private Button[] botonesBarcos;
     BoardElement[] barcos;
     List<BoardElement> barcosGameEnemy;
+    List<BoardElement> barcosPlayer;
+    private int barcosCountEnemy =10;
+    private int barcosCountPlayer =10;
+    private boolean gameStart = false;
+    private FileCRUD file;
     /**
      * Initializes the game controller.
      * Performs setup tasks such as setting up the timeline and populating the Sudoku board.
      */
     public void initialize(){
+        file = new FileCRUD("barcos.txt");
+        List<String> files = file.read();
+
         Game game = new Game();
-        barcosGameEnemy = game.getBarcosGame();
+        barcosGameEnemy = game.getBoatgame();
+        barcosPlayer = new ArrayList<>();
 
         elPortavion = new BoardElement("Portaviones", 1, 4);
         elSubmarino = new BoardElement("SubMarinos", 2, 3);
@@ -68,9 +91,120 @@ public class GameController {
 
         addMouseEvent(tablero1);
         addMouseEventEnemy(tablero2);
+        boatsFile(files);
         placeEnemyBoats();
     }
 
+
+    public void boatsFile(List<String> files){
+        for(String boat:files){
+            // Expresión regular para encontrar texto entre comillas o texto sin comillas seguido de una coma
+            Pattern pattern = Pattern.compile("\"[^\"]*\"|[^,]+");
+            Matcher matcher = pattern.matcher(boat);
+
+            // Lista para almacenar los elementos
+            List<String> elements = new ArrayList<>();
+
+            // Iterar sobre las coincidencias y agregarlas a la lista
+            while (matcher.find()) {
+                // Obtener el texto de la coincidencia y eliminar las comillas si están presentes
+                String match = matcher.group().replaceAll("^\"|\"$", "");
+                elements.add(match);
+            }
+            String[] array = elements.toArray(new String[0]);
+
+            if (Objects.equals(array[0], "Portaviones")) {
+
+                selectedShip = elPortavion;
+                shipSize = elPortavion.getSpaces();
+                placeShip(Integer.parseInt(array[1]), Integer.parseInt(array[2]));
+
+            } else if (Objects.equals(array[0], "SubMarinos")) {
+                selectedShip = elSubmarino;
+                shipSize = elSubmarino.getSpaces();
+                placeShip(Integer.parseInt(array[1]), Integer.parseInt(array[2]));
+
+            } else if (Objects.equals(array[0], "Destructores")) {
+                selectedShip = elDestructor;
+                shipSize = elDestructor.getSpaces();
+                placeShip(Integer.parseInt(array[1]), Integer.parseInt(array[2]));
+
+            } else if (Objects.equals(array[0], "Fragatas")) {
+                System.out.println("entro flagata");
+                selectedShip = elFragatas;
+                shipSize = elFragatas.getSpaces();
+                placeShip(Integer.parseInt(array[1]), Integer.parseInt(array[2]));
+            }
+        }
+    }
+    public void startGame() {
+        activateBoard(tablero1,true);
+        activateBoard(tablero2,false);
+        gameStart = true;
+
+    }
+
+    /**
+     *
+     */
+    public  void turnEnemy(){
+        if (gameStart) {
+            PauseTransition pause = new PauseTransition(Duration.seconds(1.5));
+            int col, row;
+
+            Random random = new Random();
+            col = random.nextInt((10 - 1) + 1) + 1;
+            row = random.nextInt((10 - 1) + 1) + 1;
+            System.out.println(col + " " + row);
+
+            Pane cell = getCellFromGridPane(tablero1, row, col);
+            //cell.f
+            //cell.getOnMouseClicked();
+            cell.setStyle("-fx-background-color: orange");
+            //cell.setOnMouseClicked(null);
+            for (BoardElement barco : barcosPlayer) {
+                if (col >= barco.getCol() && col <= barco.getFinalCol() && row == barco.getRow()) {
+                    if (barco.getLife() == 1) {
+                        for (int i = barco.getCol(); i <= barco.getFinalCol(); i++){
+                            Pane drownCell = getCellFromGridPane(tablero1, row, i);
+                            drownCell.setStyle("-fx-background-color: darkred");
+                        }
+                        barcosPlayer.remove(barco);
+                        barcosCountPlayer -=1;
+                        verifyWinner();
+
+                        break;
+                    }
+                    cell.setStyle("-fx-background-color: red");
+                    barco.setLife();
+                    break;
+                }
+            }
+
+            int randomNumber = random.nextInt(10); // 10 es exclusivo, así que genera números del 0 al 9
+
+            pause.setOnFinished(event -> {
+
+                System.out.println("desactivar");
+                activateBoard(tablero2,false);
+
+            });
+            // Iniciar la pausa
+            pause.play();
+        } else
+            return;
+
+
+    }
+
+
+    /**
+     *
+     * @param gridPane The gridpane to search for
+     * @param row the row index of the desired cells
+     * @param col the column index of the desired cell
+     * @return the panel at the specified position , or null if not found
+     */
     private Pane getCellFromGridPane(GridPane gridPane, int row, int col) {
         for (Node node : gridPane.getChildren()) {
             if (GridPane.getRowIndex(node) != null && GridPane.getRowIndex(node) == row &&
@@ -78,9 +212,14 @@ public class GameController {
                 return (Pane) node;
             }
         }
-        return null; // No se encontró la celda
+        return null; // cell not found
     }
 
+    /**
+     * Adds mouse events to each cell in the GridPane and Highlights
+     * cells on mouse enter/exit and calls `placeShip` on click.
+     * @param grid  The GridPane to which mouse events will be added.
+     */
     private void addMouseEvent(GridPane grid) {
         for (int row = 0; row < grid.getRowCount(); row++) {
             for (int col = 0; col < grid.getColumnCount(); col++) {
@@ -90,81 +229,16 @@ public class GameController {
                     final int currentRow = row;
                     final int currentCol = col;
                     // Adding mouse enter and exit events
-                    cell.setOnMouseEntered(e -> cell.setStyle("-fx-background-color: lightblue; -fx-border-color: black;"));
-                    cell.setOnMouseExited(e -> cell.setStyle("-fx-background-color: white; -fx-border-color: white;"));
-                    //Esto es pa que la función placeShip sea llamada cuando el usuario hace clic en una celda específica del tablero
+                    if (!cell.isDisabled()) {
+                        cell.setOnMouseEntered(e -> cell.setStyle("-fx-background-color: lightblue; -fx-border-color: black;"));
+                        cell.setOnMouseExited(e -> cell.setStyle("-fx-background-color: white; -fx-border-color: white;"));
+                    }
+                    // Calls placeShip when the cell is clicked
                     cell.setOnMouseClicked(e ->{
-                        placeShip(cell, currentRow, currentCol);
-
-                        Pane edge1 = getCellFromGridPane(tablero1, currentRow-shipSize+1, currentCol);
-                        Pane edge2 = getCellFromGridPane(tablero1, currentRow+shipSize-1, currentCol);
-                        Pane edge3 = getCellFromGridPane(tablero1, currentRow, currentCol-shipSize+1);
-                        Pane edge4 = getCellFromGridPane(tablero1, currentRow, currentCol+shipSize-1);
-                        if (edge1 != null || edge2 != null || edge3 != null || edge4 != null) {
-                            if (edge1 != null) {
-                                edge1.setStyle("-fx-background-color: lightgreen; -fx-border-color: black;");
-                                edge1.setOnMouseClicked(event -> {
-                                    GridPane.setRowSpan(edge1, shipSize);
-//                            for (int i = currentRow-1;i>=currentRow-shipSize+1;i--) {
-//                                Pane loopCell = getCellFromGridPane(tablero1, i, currentCol);
-//                                placeShip(loopCell, i, currentCol);
-//                            }
-                                if (edge2 != null) edge2.setStyle("-fx-background-color: white; -fx-border-color: white;");
-                                if (edge3 != null) edge3.setStyle("-fx-background-color: white; -fx-border-color: white;");
-                                if (edge4 != null) edge4.setStyle("-fx-background-color: white; -fx-border-color: white;");
-
-                                    selectedShip.setQuantity(selectedShip.getQuantity() - 1);
-                                    updateShipCounts();
-                                });
-                            }
-                            if (edge2 != null)
-                                edge2.setStyle("-fx-background-color: lightgreen; -fx-border-color: black;");
-                                edge2.setOnMouseClicked(event -> {
-                                GridPane.setRowSpan(cell, shipSize);
-//                              for (int i = currentRow+1;i<=currentRow+shipSize-1;i++) {
-//                                Pane loopCell = getCellFromGridPane(tablero1, i, currentCol);
-//                                placeShip(loopCell, i, currentCol);
-//                              }
-                                    if (edge1 != null) edge1.setStyle("-fx-background-color: white; -fx-border-color: white;");
-                                    if (edge3 != null) edge3.setStyle("-fx-background-color: white; -fx-border-color: white;");
-                                    if (edge4 != null) edge4.setStyle("-fx-background-color: white; -fx-border-color: white;");
-                                selectedShip.setQuantity(selectedShip.getQuantity() - 1);
-                                updateShipCounts();
-                            });
-                            if (edge3 != null) {
-                                edge3.setStyle("-fx-background-color: lightgreen; -fx-border-color: black;");
-                                edge3.setOnMouseClicked(event -> {
-                                    GridPane.setColumnSpan(edge3, shipSize);
-//                            for (int i = currentCol-1;i>=currentCol-shipSize+1;i--) {
-//                                Pane loopCell = getCellFromGridPane(tablero1, currentRow, i);
-//                                placeShip(loopCell, currentCol, i);
-//                            }
-                                    if (edge1 != null) edge1.setStyle("-fx-background-color: white; -fx-border-color: white;");
-                                    if (edge2 != null) edge2.setStyle("-fx-background-color: white; -fx-border-color: white;");
-                                    if (edge4 != null) edge4.setStyle("-fx-background-color: white; -fx-border-color: white;");
-                                    selectedShip.setQuantity(selectedShip.getQuantity() - 1);
-                                    updateShipCounts();
-                                });
-                            }
-                            if (edge4 != null) {
-                                edge4.setStyle("-fx-background-color: lightgreen; -fx-border-color: black;");
-                                edge4.setOnMouseClicked(event -> {
-                                    GridPane.setColumnSpan(cell, shipSize);
-//                              for (int i = currentCol+1;i<=currentCol+shipSize-1;i++) {
-//                                Pane loopCell = getCellFromGridPane(tablero1, currentRow, i);
-//                                placeShip(loopCell, currentRow, i);
-//                              }
-                                    if (edge1 != null) edge1.setStyle("-fx-background-color: white; -fx-border-color: white;");
-                                    if (edge2 != null) edge2.setStyle("-fx-background-color: white; -fx-border-color: white;");
-                                    if (edge3 != null) edge3.setStyle("-fx-background-color: white; -fx-border-color: white;");
-                                    selectedShip.setQuantity(selectedShip.getQuantity() - 1);
-                                    updateShipCounts();
-                                });
-                            }
+                        if(!gameStart){
+                            placeShip(currentRow, currentCol);
+                            verifyWinner();
                         }
-
-
-
 
                     });
 
@@ -173,6 +247,10 @@ public class GameController {
         }
     }
 
+    /**
+     *Adds mouse events to each cell in the enemy GridPane.
+     * @param grid The GridPane to which mouse events will be added
+     */
     private void addMouseEventEnemy(GridPane grid) {
         for (int row = 0; row < grid.getRowCount(); row++) {
             for (int col = 0; col < grid.getColumnCount(); col++) {
@@ -186,48 +264,95 @@ public class GameController {
                         cell.setOnMouseExited(null);
                         cell.setStyle("-fx-background-color: blue; -fx-border-color: black;");
                         cell.setDisable(true);
+                        activateBoard(tablero2,true);
+                        turnEnemy();
                     });
-                    //Esto es pa que la función placeShip sea llamada cuando el usuario hace clic en una celda específica del tablero
 
                 }
             }
         }
     }
 
-    //esto es pa colocar un barco en una celda específica del tablero y coloca el nombre del barco que se selecciono
-    private void placeShip(Pane cell, int row, int col) {
+    /**
+     * Places a ship on the player´s grid at the specified cell
+     *
+     * @param row The row index of the cell
+     * @param col The col index of the cell
+     */
+
+    private void placeShip( int row, int col) {
         if (selectedShip == null || selectedShip.getQuantity() == 0) {
             return;
         }
 
-        // esto es pa Compruebar si el barco se puede colocar dentro de los límites de la cuadrícula.
-        //entonces solo se  aplica  para un tablero q es el del jugador
+        // Check if the ship can be placed within grid boundaries
         if (col + shipSize - 1 < tablero1.getColumnCount()) {
             Pane shipCell = getCellFromGridPane(tablero1, row, col);
+            BoardElement shipModel = new BoardElement(selectedShip.getName(),selectedShip.getQuantity(),selectedShip.getSpaces());
+
 
             if (shipCell != null && !isCellOccupied(shipCell)) {
-                shipCell.setStyle("-fx-background-color: pink; -fx-border-color: red;");
+                if (shipSize > 1) {
+                    for (int i = 1;i<shipSize;i++) {
+                        Pane neighbourdCell = getCellFromGridPane(tablero1, row, col+i);
+                        neighbourdCell.setDisable(true);
+                    }
+                }
+
+
+
+                //shipCell.setStyle("-fx-background-color: pink; -fx-border-color: red;");
+
                 Text shipText = new Text(selectedShip.getName());
                 shipText.setStyle("-fx-font-size: 8pt;");
-                shipCell.getChildren().add(shipText);
-
+                scaleBoats(shipModel);
+                tablero1.add(shipModel.getRoot(),col,row);
+                shipModel.setCol(col);
+                shipModel.setFinalCol(col+shipSize-1);
+                shipModel.setRow(row);
+                barcosPlayer.add(shipModel);
+                file.create(shipModel.getName()+","+shipModel.getRow()+","+shipModel.getCol());
                 // Disable click event for this cell
-                shipCell.setOnMouseClicked(null);
+//                shipCell.setOnMouseClicked(e -> cellEnemy(shipModel,shipCell));
 
+                selectedShip.setQuantity(selectedShip.getQuantity() - 1);
+                //selectedButton.setText(selectedShip.getName() + " " + selectedShip.getQuantity());
+                if (selectedShip.getQuantity() == 0)
+                    //selectedButton.setDisable(true);
+                shipCell.setDisable(true);
+                for (BoardElement b : barcos) {
+                    if (b.getQuantity() != 0)
+                        return;
+                }
+
+                play.setDisable(false);
             }
         }
     }
 
-    private void placeCell() {
-
+    /**
+     *
+     * @param shipModel
+     * @param shipCell
+     */
+    private void cellEnemy(Pane shipModel,Pane shipCell) {
+        shipCell.setStyle("-fx-background-color: pink; -fx-border-color: red;");
     }
 
-    // verifica si una celda está ocupada por algún barco y si lo esta no me deja colocar.
+    /**
+     *Checks if a cell is occupied by a ship
+     * @param cell The cell to check
+     * @return True if the cell is occupied, false atherwise
+     */
+
     private boolean isCellOccupied(Pane cell) {
         return !cell.getChildren().isEmpty();
     }
 
-    // esto es pa mermar la cantidad de barcos , osea si ya se selecciono uno actualiza la cantidad de los q me faltan
+    /**
+     *  Updates the text of ship buttons to reflect the remaining quantity of each ship.
+     */
+
     private void updateShipCounts() {
 
         for (int i = 0; i < barcos.length; i++ ) {
@@ -235,87 +360,159 @@ public class GameController {
         }
     }
 
+    /**
+     * Handles the selection of a ship type when a button is clicked.
+     * @param event The ActionEvent triggered by clicking a ship button.
+     */
     public void onHandleElement(ActionEvent event) {
         Button eventButton = (Button) event.getSource();
 
         if (eventButton == buttonPortaviones) {
             selectedShip = elPortavion;
             shipSize = elPortavion.getSpaces();
+            selectedButton = eventButton;
         } else if (eventButton == buttonSubmarinos) {
             selectedShip = elSubmarino;
             shipSize = elSubmarino.getSpaces();
+            selectedButton = eventButton;
         } else if (eventButton == buttonDestructores) {
             selectedShip = elDestructor;
             shipSize = elDestructor.getSpaces();
+            selectedButton = eventButton;
         } else if (eventButton == buttonFragatas) {
             selectedShip = elFragatas;
             shipSize = elFragatas.getSpaces();
+            selectedButton = eventButton;
         }
     }
 
-   public void placeEnemyBoats(){
-        for(BoardElement Boat:barcosGameEnemy){
+    /**
+     * Scales the size of the ship based on its name.
+     *
+     * @param boat The BoardElement representing the ship to scale.
+     */
+    public void scaleBoats(BoardElement boat) {
+        switch (boat.getName()){
+            case "Portaviones":
+    boat.getRoot().setScaleX(0.8);
+                boat.getRoot().setScaleY(0.5);
+                break;
+            case "SubMarinos":
+                boat.getRoot().setScaleX(0.7);
+                boat.getRoot().setScaleY(0.5);
+                break;
+            case "Destructores":
+                boat.getRoot().setScaleX(0.4);
+                boat.getRoot().setScaleY(0.5);
+                break;
+            case "Fragatas":
+                boat.getRoot().setScaleX(0.2);
+                boat.getRoot().setScaleY(0.2);
+                break;
+        }
+    }
 
-            switch (Boat.getName()){
-                case "Portaviones":
-                    Boat.getRoot().setScaleX(0.8);
-                    Boat.getRoot().setScaleY(0.5);
-                    break;
-                case "SubMarinos":
-                    Boat.getRoot().setScaleX(0.7);
-                    Boat.getRoot().setScaleY(0.5);
-                    break;
-                case "Destructores":
-                    Boat.getRoot().setScaleX(0.4);
-                    Boat.getRoot().setScaleY(0.5);
-                    break;
-                case "Fragatas":
-                    Boat.getRoot().setScaleX(0.2);
-                    Boat.getRoot().setScaleY(0.2);
-                    break;
-            }
-            int col= Boat.getCol();
-            for (int i = 0; i < Boat.getSpaces(); i++) {
-                Pane cell = getCellFromGridPane(tablero2, Boat.getRow() , col);
+    /**
+     * Places enemy boats on the grid.
+     */
+   public void placeEnemyBoats(){
+
+
+        for(BoardElement boat:barcosGameEnemy){
+            scaleBoats(boat);
+            int col= boat.getCol();
+            for (int i = 0; i < boat.getSpaces(); i++) {
+                Pane cell = getCellFromGridPane(tablero2, boat.getRow() , col);
                 col++;
                 if(cell != null){
-                    cell.setOnMouseClicked(e ->OnClickCellEnemy(cell,Boat));
+                    cell.setOnMouseClicked(e ->OnClickCellEnemy(cell,boat));
                 }
             }
-            Boat.getRoot().setVisible(false);
-            tablero2.add(Boat.getRoot(),Boat.getCol(),Boat.getRow());
+            boat.getRoot().setVisible(false);
+            tablero2.add(boat.getRoot(),boat.getCol(),boat.getRow());
         }
 
     }
-    private void OnClickCellEnemy(Pane cell, BoardElement Boat){
+
+    /**
+     *Handles the click event on an enemy cell.
+     *
+     * @param cell The cell that was clicked
+     * @param boat The enemy boat associated with the cell
+     */
+    private void OnClickCellEnemy(Pane cell, BoardElement boat){
+        activateBoard(tablero2,true);
+        turnEnemy();
         cell.setOnMouseExited(null);
         cell.setStyle("-fx-background-color: pink; -fx-border-color: red;");
         cell.setDisable(true);
-        if(Boat.getLife() == 1 ){
-            Boat.getRoot().setVisible(true);
+
+        if(boat.getLife() == 1 ){
+            boat.getRoot().setVisible(true);
+            barcosCountEnemy-=1;
+            verifyWinner();
+
         }else {
-            Boat.setLife();
+            boat.setLife();
         }
     }
 
-    public void showBoard(ActionEvent event){
+    /**
+     *Shows or hides the enemy board based on the selected radio button.
+     * @param event The ActionEvent triggered by selecting a radio button.
+     */
+    public void showBoard(ActionEvent event ){
            RadioButton source = (RadioButton) event.getSource();
+
+
         if (source.isSelected()) {
-            for(BoardElement Boat:barcosGameEnemy){
-                Boat.getRoot().setVisible(true);
+            for(BoardElement boat:barcosGameEnemy){
+                boat.getRoot().setVisible(true);
+
             }
-            idPanelControllerTwo.setVisible(true);
-            idPanelControllerTwo.setStyle("-fx-background-color: rgba(168, 168, 168, 0.5);");
+            activateBoard(tablero1,true);
 
         } else {
-            for(BoardElement Boat:barcosGameEnemy){
-                Boat.getRoot().setVisible(false);
+            for(BoardElement boat:barcosGameEnemy){
+                if(boat.getLife() != 0){
+                    boat.getRoot().setVisible(false);
+                }
             }
-            idPanelControllerTwo.setVisible(false);
+            activateBoard(tablero1,false);
+
 
         }
+    }
+
+    /**
+     *
+     * @param grid
+     * @param select
+     */
+    private void activateBoard(GridPane grid, boolean select) {
+        grid.setDisable(select);
+
+    }
+
+    private void verifyWinner() {
+        System.out.println(barcosCountEnemy + " " + barcosCountPlayer);
+
+        if (barcosCountEnemy == 0) {
+
+            System.out.println("Ganaste");
+            activateBoard(tablero1, true);
+            activateBoard(tablero2, true);
+            interaction.setText("GANASTE!!!");
+            interaction.setStyle("-fx-font-weight:BOLD;-fx-text-fill: green");
+            gameStart = false;
+        }  else if (barcosCountPlayer == 0)  {
+            System.out.println("Perdiste");
+            activateBoard(tablero1, true);
+            activateBoard(tablero2, true);
+            interaction.setText("Lo siento, perdiste");
+            interaction.setStyle("-fx-font-weight: bold;-fx-text-fill:red");
+            gameStart = false;
+            }
     }
 
 }
-
-
