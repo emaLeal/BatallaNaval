@@ -184,22 +184,43 @@ public class BoardElement {
      *
      * @param size The size to set.
      */
+
     public void setSize(int size) {
         this.size = size;
     }
 
+    /**
+     * Sets the column position of the board element.
+     *
+     * @param col The column to set.
+     */
     public void setCol(int col) {
         this.col = col;
     }
 
+    /**
+     * Sets the row position of the board element.
+     *
+     * @param row The row to set.
+     */
     public void setRow(int row) {
         this.row = row;
     }
 
+    /**
+     * Gets the final column position of the board element.
+     *
+     * @return The final column position.
+     */
     public int getFinalCol() {
         return finalCol;
     }
 
+    /**
+     * Sets the final column position of the board element.
+     *
+     * @param finalCol The final column to set.
+     */
     public void setFinalCol(int finalCol) {
         this.finalCol = finalCol;
     }

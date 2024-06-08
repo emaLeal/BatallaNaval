@@ -96,106 +96,102 @@ public class GameController {
     }
 
 
-    public void boatsFile(List<String> files){
-        for(String boat:files){
-            // Expresión regular para encontrar texto entre comillas o texto sin comillas seguido de una coma
+    /**
+     * Processes a list of boat data and places the boats on the grid based on the input.
+     *
+     * @param files List of strings where each string contains boat data in the format: "boatName,row,col".
+     */
+    public void boatsFile(List<String> files) {
+        for (String boat : files) {
+            // Regular expression to find text between quotes or text without quotes followed by a comma
             Pattern pattern = Pattern.compile("\"[^\"]*\"|[^,]+");
             Matcher matcher = pattern.matcher(boat);
 
-            // Lista para almacenar los elementos
+            // List to store the elements
             List<String> elements = new ArrayList<>();
 
-            // Iterar sobre las coincidencias y agregarlas a la lista
+            // Iterate over matches and add them to the list
             while (matcher.find()) {
-                // Obtener el texto de la coincidencia y eliminar las comillas si están presentes
+                // Get the match text and remove quotes if present
                 String match = matcher.group().replaceAll("^\"|\"$", "");
                 elements.add(match);
             }
             String[] array = elements.toArray(new String[0]);
 
-            if (Objects.equals(array[0], "Portaviones")) {
-
-                selectedShip = elPortavion;
-                shipSize = elPortavion.getSpaces();
-                placeShip(Integer.parseInt(array[1]), Integer.parseInt(array[2]));
-
-            } else if (Objects.equals(array[0], "SubMarinos")) {
-                selectedShip = elSubmarino;
-                shipSize = elSubmarino.getSpaces();
-                placeShip(Integer.parseInt(array[1]), Integer.parseInt(array[2]));
-
-            } else if (Objects.equals(array[0], "Destructores")) {
-                selectedShip = elDestructor;
-                shipSize = elDestructor.getSpaces();
-                placeShip(Integer.parseInt(array[1]), Integer.parseInt(array[2]));
-
-            } else if (Objects.equals(array[0], "Fragatas")) {
-                System.out.println("entro flagata");
-                selectedShip = elFragatas;
-                shipSize = elFragatas.getSpaces();
-                placeShip(Integer.parseInt(array[1]), Integer.parseInt(array[2]));
+            // Select the ship and place it on the grid based on the parsed data
+            switch (array[0]) {
+                case "Portaviones":
+                    selectedShip = elPortavion;
+                    shipSize = elPortavion.getSpaces();
+                    placeShip(Integer.parseInt(array[1]), Integer.parseInt(array[2]));
+                    break;
+                case "SubMarinos":
+                    selectedShip = elSubmarino;
+                    shipSize = elSubmarino.getSpaces();
+                    placeShip(Integer.parseInt(array[1]), Integer.parseInt(array[2]));
+                    break;
+                case "Destructores":
+                    selectedShip = elDestructor;
+                    shipSize = elDestructor.getSpaces();
+                    placeShip(Integer.parseInt(array[1]), Integer.parseInt(array[2]));
+                    break;
+                case "Fragatas":
+                    selectedShip = elFragatas;
+                    shipSize = elFragatas.getSpaces();
+                    placeShip(Integer.parseInt(array[1]), Integer.parseInt(array[2]));
+                    break;
             }
         }
     }
-    public void startGame() {
-        activateBoard(tablero1,true);
-        activateBoard(tablero2,false);
-        gameStart = true;
-
-    }
 
     /**
-     *
+     * Starts the game by activating the player's board and deactivating the enemy's board.
      */
-    public  void turnEnemy(){
-        if (gameStart) {
-            PauseTransition pause = new PauseTransition(Duration.seconds(1.5));
-            int col, row;
+    public void startGame() {
+        activateBoard(tablero1, true);
+        activateBoard(tablero2, false);
+        gameStart = true;
+    }
 
+
+    /**
+     * Handles the enemy's turn by attacking a random cell on the player's grid.
+     */
+    public void turnEnemy() {
+        if (gameStart) {
+            PauseTransition pause = new PauseTransition(Duration.seconds(1.5)); // Simulate enemy thinking time
             Random random = new Random();
-            col = random.nextInt((10 - 1) + 1) + 1;
-            row = random.nextInt((10 - 1) + 1) + 1;
-            System.out.println(col + " " + row);
+            int col = random.nextInt(10) + 1;
+            int row = random.nextInt(10) + 1;
 
             Pane cell = getCellFromGridPane(tablero1, row, col);
-            //cell.f
-            //cell.getOnMouseClicked();
             cell.setStyle("-fx-background-color: orange");
-            //cell.setOnMouseClicked(null);
+
+            // Check if the attacked cell hits any player's ship
             for (BoardElement barco : barcosPlayer) {
                 if (col >= barco.getCol() && col <= barco.getFinalCol() && row == barco.getRow()) {
                     if (barco.getLife() == 1) {
-                        for (int i = barco.getCol(); i <= barco.getFinalCol(); i++){
-                            Pane drownCell = getCellFromGridPane(tablero1, row, i);
-                            drownCell.setStyle("-fx-background-color: darkred");
+                        // Ship is sunk, mark all cells as dark red
+                        for (int i = barco.getCol(); i <= barco.getFinalCol(); i++) {
+                            getCellFromGridPane(tablero1, row, i).setStyle("-fx-background-color: darkred");
                         }
                         barcosPlayer.remove(barco);
-                        barcosCountPlayer -=1;
+                        barcosCountPlayer -= 1;
                         verifyWinner();
-
-                        break;
+                    } else {
+                        // Ship is hit but not sunk, mark cell as red
+                        cell.setStyle("-fx-background-color: red");
+                        barco.setLife();
                     }
-                    cell.setStyle("-fx-background-color: red");
-                    barco.setLife();
                     break;
                 }
             }
 
-            int randomNumber = random.nextInt(10); // 10 es exclusivo, así que genera números del 0 al 9
-
-            pause.setOnFinished(event -> {
-
-                System.out.println("desactivar");
-                activateBoard(tablero2,false);
-
-            });
-            // Iniciar la pausa
+            pause.setOnFinished(event -> activateBoard(tablero2, false)); // Deactivate enemy board after attack
             pause.play();
-        } else
-            return;
-
-
+        }
     }
+
 
 
     /**
@@ -483,22 +479,24 @@ public class GameController {
 
         }
     }
-
     /**
-     *
-     * @param grid
-     * @param select
+     * Activates or deactivates the given grid.
+     * @param grid  The grid to activate or deactivate.
+     * @param select  If true, the grid will be activated; otherwise, it will be deactivated.
      */
     private void activateBoard(GridPane grid, boolean select) {
         grid.setDisable(select);
-
     }
 
+    /**
+     *Verifies the current game status to determine if there is a winner.
+     * If the player has destroyed all enemy ships, they win.
+     */
     private void verifyWinner() {
         System.out.println(barcosCountEnemy + " " + barcosCountPlayer);
 
         if (barcosCountEnemy == 0) {
-
+            // Player wins the game
             System.out.println("Ganaste");
             activateBoard(tablero1, true);
             activateBoard(tablero2, true);
