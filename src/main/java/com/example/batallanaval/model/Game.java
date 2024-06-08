@@ -33,7 +33,7 @@ public class Game {
         }
 
         // Create frigate ships
-        for (int i = 1; i < 10 ; i+=2) {
+        for (int i = 2; i < 10 ; i+=2) {
             BoardElement fragatas = new BoardElement("Fragatas", 4, 1, 7, i);
             boatgame.add(fragatas);
         }

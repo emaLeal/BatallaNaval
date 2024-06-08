@@ -6,6 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -15,7 +16,10 @@ import javafx.util.Duration;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class GameController {
     // FXML variables
@@ -38,6 +42,8 @@ public class GameController {
     private Pane idPanelControllerTwo;
     @FXML
     private Pane idPanelControllerOne;
+    @FXML
+    private Label interaction;
 
     // elements
     private BoardElement elPortavion;
@@ -56,11 +62,15 @@ public class GameController {
     private int barcosCountEnemy =10;
     private int barcosCountPlayer =10;
     private boolean gameStart = false;
+    private FileCRUD file;
     /**
      * Initializes the game controller.
      * Performs setup tasks such as setting up the timeline and populating the Sudoku board.
      */
     public void initialize(){
+        file = new FileCRUD("barcos.txt");
+        List<String> files = file.read();
+
         Game game = new Game();
         barcosGameEnemy = game.getBoatgame();
         barcosPlayer = new ArrayList<>();
@@ -81,56 +91,110 @@ public class GameController {
 
         addMouseEvent(tablero1);
         addMouseEventEnemy(tablero2);
+        boatsFile(files);
         placeEnemyBoats();
     }
 
+
+    public void boatsFile(List<String> files){
+        for(String boat:files){
+            // Expresión regular para encontrar texto entre comillas o texto sin comillas seguido de una coma
+            Pattern pattern = Pattern.compile("\"[^\"]*\"|[^,]+");
+            Matcher matcher = pattern.matcher(boat);
+
+            // Lista para almacenar los elementos
+            List<String> elements = new ArrayList<>();
+
+            // Iterar sobre las coincidencias y agregarlas a la lista
+            while (matcher.find()) {
+                // Obtener el texto de la coincidencia y eliminar las comillas si están presentes
+                String match = matcher.group().replaceAll("^\"|\"$", "");
+                elements.add(match);
+            }
+            String[] array = elements.toArray(new String[0]);
+
+            if (Objects.equals(array[0], "Portaviones")) {
+
+                selectedShip = elPortavion;
+                shipSize = elPortavion.getSpaces();
+                placeShip(Integer.parseInt(array[1]), Integer.parseInt(array[2]));
+
+            } else if (Objects.equals(array[0], "SubMarinos")) {
+                selectedShip = elSubmarino;
+                shipSize = elSubmarino.getSpaces();
+                placeShip(Integer.parseInt(array[1]), Integer.parseInt(array[2]));
+
+            } else if (Objects.equals(array[0], "Destructores")) {
+                selectedShip = elDestructor;
+                shipSize = elDestructor.getSpaces();
+                placeShip(Integer.parseInt(array[1]), Integer.parseInt(array[2]));
+
+            } else if (Objects.equals(array[0], "Fragatas")) {
+                System.out.println("entro flagata");
+                selectedShip = elFragatas;
+                shipSize = elFragatas.getSpaces();
+                placeShip(Integer.parseInt(array[1]), Integer.parseInt(array[2]));
+            }
+        }
+    }
     public void startGame() {
         activateBoard(tablero1,true);
         activateBoard(tablero2,false);
+        gameStart = true;
 
     }
 
+    /**
+     *
+     */
     public  void turnEnemy(){
-        PauseTransition pause = new PauseTransition(Duration.seconds(1.5));
-        int col, row;
+        if (gameStart) {
+            PauseTransition pause = new PauseTransition(Duration.seconds(1.5));
+            int col, row;
 
-        Random random = new Random();
-        col = random.nextInt((10 - 1) + 1) + 1;
-        row = random.nextInt((10 - 1) + 1) + 1;
-        System.out.println(col + " " + row);
+            Random random = new Random();
+            col = random.nextInt((10 - 1) + 1) + 1;
+            row = random.nextInt((10 - 1) + 1) + 1;
+            System.out.println(col + " " + row);
 
-        Pane cell = getCellFromGridPane(tablero1, row, col);
-        //cell.f
-        //cell.getOnMouseClicked();
-        cell.setStyle("-fx-background-color: orange");
-        //cell.setOnMouseClicked(null);
-        for (BoardElement barco : barcosPlayer) {
-            if (col >= barco.getCol() && col <= barco.getFinalCol() && row == barco.getRow()) {
-                if (barco.getLife() == 1) {
-                    for (int i = 01; i > barco.getSpaces(); ){
+            Pane cell = getCellFromGridPane(tablero1, row, col);
+            //cell.f
+            //cell.getOnMouseClicked();
+            cell.setStyle("-fx-background-color: orange");
+            //cell.setOnMouseClicked(null);
+            for (BoardElement barco : barcosPlayer) {
+                if (col >= barco.getCol() && col <= barco.getFinalCol() && row == barco.getRow()) {
+                    if (barco.getLife() == 1) {
+                        for (int i = barco.getCol(); i <= barco.getFinalCol(); i++){
+                            Pane drownCell = getCellFromGridPane(tablero1, row, i);
+                            drownCell.setStyle("-fx-background-color: darkred");
+                        }
+                        barcosPlayer.remove(barco);
+                        barcosCountPlayer -=1;
+                        verifyWinner();
 
+                        break;
                     }
-                    cell.setStyle("-fx-background-color: darkred");
-                    barcosPlayer.remove(barco);
-                    barcosCountPlayer -=1;
+                    cell.setStyle("-fx-background-color: red");
+                    barco.setLife();
                     break;
                 }
-                cell.setStyle("-fx-background-color: red");
-                barco.setLife();
-                break;
             }
-        }
 
-        int randomNumber = random.nextInt(10); // 10 es exclusivo, así que genera números del 0 al 9
+            int randomNumber = random.nextInt(10); // 10 es exclusivo, así que genera números del 0 al 9
 
-        pause.setOnFinished(event -> {
+            pause.setOnFinished(event -> {
 
-            System.out.println("desactivar");
-            activateBoard(tablero2,false);
+                System.out.println("desactivar");
+                activateBoard(tablero2,false);
 
-        });
-        // Iniciar la pausa
-        pause.play();
+            });
+            // Iniciar la pausa
+            pause.play();
+        } else
+            return;
+
+
     }
 
 
@@ -172,9 +236,8 @@ public class GameController {
                     // Calls placeShip when the cell is clicked
                     cell.setOnMouseClicked(e ->{
                         if(!gameStart){
-                            placeShip(cell, currentRow, currentCol);
-                        }else{
-                            cell.setStyle("-fx-background-color: lightblue; -fx-border-color: black;");
+                            placeShip(currentRow, currentCol);
+                            verifyWinner();
                         }
 
                     });
@@ -213,12 +276,11 @@ public class GameController {
     /**
      * Places a ship on the player´s grid at the specified cell
      *
-     * @param cell The cell on which to place the ship
      * @param row The row index of the cell
      * @param col The col index of the cell
      */
 
-    private void placeShip(Pane cell, int row, int col) {
+    private void placeShip( int row, int col) {
         if (selectedShip == null || selectedShip.getQuantity() == 0) {
             return;
         }
@@ -239,7 +301,7 @@ public class GameController {
 
 
 
-                shipCell.setStyle("-fx-background-color: pink; -fx-border-color: red;");
+                //shipCell.setStyle("-fx-background-color: pink; -fx-border-color: red;");
 
                 Text shipText = new Text(selectedShip.getName());
                 shipText.setStyle("-fx-font-size: 8pt;");
@@ -249,15 +311,14 @@ public class GameController {
                 shipModel.setFinalCol(col+shipSize-1);
                 shipModel.setRow(row);
                 barcosPlayer.add(shipModel);
-
+                file.create(shipModel.getName()+","+shipModel.getRow()+","+shipModel.getCol());
                 // Disable click event for this cell
 //                shipCell.setOnMouseClicked(e -> cellEnemy(shipModel,shipCell));
 
                 selectedShip.setQuantity(selectedShip.getQuantity() - 1);
-                selectedButton.setText(selectedShip.getName() + " " + selectedShip.getQuantity());
+                //selectedButton.setText(selectedShip.getName() + " " + selectedShip.getQuantity());
                 if (selectedShip.getQuantity() == 0)
-                    selectedButton.setDisable(true);
-
+                    //selectedButton.setDisable(true);
                 shipCell.setDisable(true);
                 for (BoardElement b : barcos) {
                     if (b.getQuantity() != 0)
@@ -269,6 +330,11 @@ public class GameController {
         }
     }
 
+    /**
+     *
+     * @param shipModel
+     * @param shipCell
+     */
     private void cellEnemy(Pane shipModel,Pane shipCell) {
         shipCell.setStyle("-fx-background-color: pink; -fx-border-color: red;");
     }
@@ -384,6 +450,8 @@ public class GameController {
         if(boat.getLife() == 1 ){
             boat.getRoot().setVisible(true);
             barcosCountEnemy-=1;
+            verifyWinner();
+
         }else {
             boat.setLife();
         }
@@ -426,7 +494,25 @@ public class GameController {
 
     }
 
+    private void verifyWinner() {
+        System.out.println(barcosCountEnemy + " " + barcosCountPlayer);
+
+        if (barcosCountEnemy == 0) {
+
+            System.out.println("Ganaste");
+            activateBoard(tablero1, true);
+            activateBoard(tablero2, true);
+            interaction.setText("GANASTE!!!");
+            interaction.setStyle("-fx-font-weight:BOLD;-fx-text-fill: green");
+            gameStart = false;
+        }  else if (barcosCountPlayer == 0)  {
+            System.out.println("Perdiste");
+            activateBoard(tablero1, true);
+            activateBoard(tablero2, true);
+            interaction.setText("Lo siento, perdiste");
+            interaction.setStyle("-fx-font-weight: bold;-fx-text-fill:red");
+            gameStart = false;
+            }
+    }
 
 }
-
-
